@@ -1,0 +1,361 @@
+// ============================================
+// Lab Report Writer — Design System
+// Follows Vercel Web Interface Guidelines
+// ============================================
+
+// --- Font Stack ---
+$font-sans: 'Inter', 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+$font-mono: 'Geist Mono', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+
+// --- Ink-based Color Palette ---
+$ink: #171717;
+$ink-secondary: #4a4a4a;
+$ink-tertiary: #8a8a8a;
+$surface: #fafafa;
+$card-bg: #ffffff;
+$border-light: #e5e5e5;
+$border-medium: #d4d4d4;
+$accent: #0070f3;
+$accent-hover: #005fd1;
+$danger: #e5484d;
+$danger-hover: #c93b3f;
+$success: #0d9b54;
+$warning: #f19d38;
+
+// --- Spacing Scale (4px base) ---
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-8: 32px;
+$space-10: 40px;
+$space-12: 48px;
+$space-16: 64px;
+$space-24: 96px;
+$space-32: 128px;
+
+// --- Corner Radii ---
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 8px;
+$radius-xl: 12px;
+$radius-2xl: 16px;
+$radius-pill: 100px;
+
+// --- Shadows (ambient + direct layers) ---
+$shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+$shadow-md: 0 2px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.08);
+$shadow-lg: 0 4px 8px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.10);
+$shadow-xl: 0 8px 16px rgba(0,0,0,0.04), 0 16px 48px rgba(0,0,0,0.12);
+
+// --- Typography Scale ---
+$text-xs: 11px;
+$text-sm: 13px;
+$text-base: 14px;
+$text-lg: 16px;
+$text-xl: 20px;
+$text-2xl: 24px;
+$text-3xl: 30px;
+
+// ========================
+// Base Reset
+// ========================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color-scheme: light;
+}
+
+body {
+  font-family: $font-sans;
+  font-size: $text-base;
+  line-height: 1.6;
+  color: $ink;
+  background: $surface;
+  // Prevent layout shift from scrollbar
+  scrollbar-gutter: stable;
+}
+
+// --- Focus Ring ---
+*:focus-visible {
+  outline: 2px solid $accent;
+  outline-offset: 2px;
+  border-radius: $radius-sm;
+}
+
+// --- Scrollbar ---
+::-webkit-scrollbar {
+  width: 8px; height: 8px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: $border-medium;
+  border-radius: $radius-pill;
+  &:hover { background: $ink-tertiary; }
+}
+
+// ========================
+// Element Plus Overrides
+// ========================
+
+// --- Button ---
+.el-button {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  border-radius: $radius-md;
+  transition: all 150ms ease;
+  // Minimum tap target
+  min-height: 36px;
+  padding: $space-2 $space-4;
+
+  &:hover {
+    transform: translateY(-0.5px);
+  }
+  &:active {
+    transform: translateY(0.5px);
+  }
+
+  // Primary
+  &--primary {
+    --el-button-bg-color: #{$accent};
+    --el-button-border-color: #{$accent};
+    --el-button-hover-bg-color: #{$accent-hover};
+    --el-button-hover-border-color: #{$accent-hover};
+    box-shadow: 0 1px 2px rgba(0,112,243,0.15);
+  }
+
+  // Large
+  &--large {
+    min-height: 44px;
+    font-size: $text-lg;
+    padding: $space-3 $space-6;
+    border-radius: $radius-lg;
+  }
+
+  // Small
+  &--small {
+    min-height: 30px;
+    font-size: $text-sm;
+    padding: $space-1 $space-3;
+  }
+
+  // Danger outlined
+  &--danger.is-plain {
+    --el-button-text-color: #{$danger};
+    --el-button-border-color: #{$danger};
+    &:hover {
+      --el-button-bg-color: #{rgba(229,72,77,0.06)};
+    }
+  }
+
+  // Loading state
+  &.is-loading {
+    position: relative;
+    pointer-events: none;
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      border-radius: inherit;
+    }
+  }
+}
+
+// --- Menu ---
+.el-menu {
+  border-right: none !important;
+  background: transparent !important;
+
+  .el-menu-item {
+    margin: 2px $space-2;
+    border-radius: $radius-md;
+    font-size: $text-base;
+    height: 40px;
+    line-height: 40px;
+    color: rgba(255,255,255,0.7);
+    transition: all 150ms ease;
+
+    &:hover {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.95);
+    }
+    &.is-active {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-weight: 500;
+    }
+  }
+}
+
+// --- Card ---
+.el-card {
+  border-radius: $radius-xl;
+  border: 1px solid $border-light;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 200ms ease;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+
+  .el-card__header {
+    font-weight: 600;
+    font-size: $text-base;
+    padding: $space-4 $space-5;
+    border-bottom: 1px solid $border-light;
+    color: $ink;
+  }
+
+  .el-card__body {
+    padding: $space-5;
+  }
+}
+
+// --- Input ---
+.el-input {
+  --el-input-border-radius: #{$radius-md};
+
+  .el-input__wrapper {
+    box-shadow: 0 0 0 1px $border-light inset;
+    transition: all 150ms ease;
+
+    &:hover {
+      box-shadow: 0 0 0 1px $border-medium inset;
+    }
+    &.is-focus {
+      box-shadow: 0 0 0 2px $accent inset;
+    }
+  }
+
+  // Textarea
+  .el-textarea__inner {
+    border-radius: $radius-lg;
+    font-family: inherit;
+    resize: vertical;
+    &:focus {
+      border-color: $accent;
+      box-shadow: 0 0 0 2px rgba(0,112,243,0.15);
+    }
+  }
+}
+
+// --- Table ---
+.el-table {
+  --el-table-border-color: #{$border-light};
+  border-radius: $radius-lg;
+  overflow: hidden;
+  font-size: $text-sm;
+
+  th.el-table__cell {
+    background: #f8f8f8;
+    font-weight: 600;
+    color: $ink-secondary;
+    height: 44px;
+    font-size: $text-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .el-table__row {
+    transition: background 100ms ease;
+    &:hover > td.el-table__cell {
+      background: rgba(0,112,243,0.03);
+    }
+  }
+}
+
+// --- Tag ---
+.el-tag {
+  border-radius: $radius-pill;
+  font-weight: 500;
+  font-size: $text-xs;
+  padding: 0 $space-3;
+  height: 24px;
+  line-height: 22px;
+  border: none;
+  letter-spacing: 0.01em;
+}
+
+// --- Dialog ---
+.el-dialog {
+  border-radius: $radius-2xl;
+  box-shadow: $shadow-xl;
+  border: 1px solid $border-light;
+
+  .el-dialog__header {
+    padding: $space-6 $space-6 $space-4;
+    font-weight: 600;
+    font-size: $text-xl;
+    letter-spacing: -0.02em;
+  }
+  .el-dialog__body { padding: $space-4 $space-6; }
+  .el-dialog__footer { padding: $space-4 $space-6 $space-6; }
+}
+
+// --- Tabs ---
+.el-tabs {
+  .el-tabs__header { margin-bottom: $space-4; }
+  .el-tabs__item {
+    font-size: $text-base;
+    font-weight: 500;
+    color: $ink-secondary;
+    padding: 0 $space-5;
+    height: 40px;
+    line-height: 40px;
+    &:hover { color: $ink; }
+    &.is-active { color: $accent; font-weight: 600; }
+  }
+  .el-tabs__active-bar { height: 2px; border-radius: 1px; }
+}
+
+// --- Progress ---
+.el-progress-bar__outer {
+  border-radius: $radius-pill;
+  background: #e5e5e5;
+}
+.el-progress-bar__inner { border-radius: $radius-pill; }
+
+// --- Alert ---
+.el-alert {
+  border-radius: $radius-lg;
+  border: none;
+}
+
+// --- Radio ---
+.el-radio__input.is-checked + .el-radio__label {
+  color: $ink;
+  font-weight: 500;
+}
+
+// ========================
+// Layout Helpers
+// ========================
+.page-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: $space-8 $space-6;
+}
+
+.page-title {
+  font-size: $text-2xl;
+  font-weight: 700;
+  color: $ink;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.text-secondary { color: $ink-secondary; }
+.text-tertiary { color: $ink-tertiary; font-size: $text-sm; }

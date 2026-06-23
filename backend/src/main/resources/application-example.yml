@@ -1,0 +1,80 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: lab-report-server
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/labreport?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ${REDIS_PASSWORD:}
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 500MB
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.labreport.server.model.entity
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      id-type: auto
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+jwt:
+  secret: ${JWT_SECRET:lab-report-jwt-secret-key-2026-must-be-at-least-256-bits-long-for-hmac-sha256}
+  expiration: 86400000
+
+knife4j:
+  enable: true
+  openapi:
+    title: 实验报告自动编写系统 API
+    description: Lab Report Writer API Documentation
+    version: 1.0.0
+
+ai:
+  gemini:
+    api-key: ${GEMINI_API_KEY:}
+    model: gemini-2.0-flash
+  deepseek:
+    api-key: ${DEEPSEEK_API_KEY:}
+    model: deepseek-chat
+  qwen:
+    api-key: ${QWEN_API_KEY:}
+    model: qwen-turbo
+
+storage:
+  upload-dir: ./uploads
+  report-output-dir: ./outputs
+
+logging:
+  level:
+    com.labreport.server: DEBUG
+    org.springframework.security: WARN
