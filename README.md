@@ -23,7 +23,7 @@
 
 **这个项目就是来解决这些问题的。** 你只需要做三件事：
 
-1. **上传你的 DOCX 模板**（广东海洋大学、信息学院……什么格式都行）
+1. **上传你的 DOCX 模板**
 2. **把整个代码文件夹拖进来**
 3. **点一下生成按钮**
 
@@ -144,7 +144,8 @@ lab-report-writer-app/
 ## ⚠️ 友情提醒
 
 - AI 生成的报告建议自己过一遍——格式对了不代表内容完全没问题
-- 别把 API Key 写代码里，配在「系统设置」页面的数据库里就行
+- 生成的报告文档在lab-report-writer-app\backend\outputs里面
+- 记得更改API Key，在lab-report-writer-app\backend\src\main\resources的application.yml文件中的67行和70行，如果有Geminmi的也可以加
 - 代码文件建议不超过 100 个，否则 prompt 太长 AI 会被截断
 - 本工具是**辅助写作**，最终提交前请确认符合课程学术规范
 
